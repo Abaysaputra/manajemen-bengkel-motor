@@ -15,7 +15,7 @@ Database::~Database() {
 void Database::connect() {
     try {
         driver = get_driver_instance();
-        con = driver->connect("tcp://127.0.0.1:3306", "root", "password"); // ganti sesuai
+        con = driver->connect("tcp://127.0.0.1:3306", "root", ""); // ganti sesuai
         con->setSchema("bengkel_db");
         stmt = con->createStatement();
     }

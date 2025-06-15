@@ -141,6 +141,7 @@
     <ClInclude Include="Kendaraan.h" />
     <ClInclude Include="Pelanggan.h" />
     <ClInclude Include="Servis.h" />
+    <ClInclude Include="ServisDetail.h" />
     <ClInclude Include="SukuCadang.h" />
     <ClInclude Include="Teknisi.h" />
   </ItemGroup>
