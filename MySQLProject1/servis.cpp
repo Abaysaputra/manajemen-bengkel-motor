@@ -22,7 +22,7 @@ void Servis::inputData() {
         std::getline(std::cin, tanggal);
     }
 
-    std::cout << "Status: ";
+    std::cout << "Status (Diproses, Selesai) : ";
     std::getline(std::cin, status);
     while (status.empty()) {
         std::cout << "❌ Status tidak boleh kosong. Masukkan ulang: ";

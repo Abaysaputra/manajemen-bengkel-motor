@@ -4,7 +4,7 @@
 
 
 void Kendaraan::inputData() {
-    std::cout << "ID Pelanggan: ";
+    std::cout << "\nMasukkan ID Pelanggan (lihat daftar di atas): ";
     std::cin >> id_pelanggan;
 
     std::cin.ignore();
