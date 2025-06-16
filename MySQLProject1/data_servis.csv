@@ -1,3 +1,4 @@
-ID,Kendaraan,Teknisi,Keluhan,Tanggal,Status
-3,1,1,"Sakit",2024-10-19,Progres
-4,1,1,"sakit",2001-01-02,hibas
+ID Servis,ID Kendaraan,ID Teknisi,Keluhan,Tanggal Servis,Status Servis,Tanggal Pembayaran,Jumlah,Metode,Status Pembayaran
+7,4,1,"Ganti Ban",2025-08-09,Selesai,2025-07-08,500000.000000,Cash,Lunas
+7,4,1,"Ganti Ban",2025-08-09,Selesai,2025-07-08,50000.000000,Cash,Lunas
+8,3,1,"ganti oli mesin",2025-08-09,Selesai,,,,

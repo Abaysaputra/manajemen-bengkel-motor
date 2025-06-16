@@ -131,6 +131,7 @@
     <ClCompile Include="kendaraan.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pelangganh.cpp" />
+    <ClCompile Include="pembayaranServis.cpp" />
     <ClCompile Include="servis.cpp" />
     <ClCompile Include="sukuCadang.cpp" />
     <ClCompile Include="teknisi.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Kendaraan.h" />
     <ClInclude Include="Pelanggan.h" />
+    <ClInclude Include="PembayaranServis.h" />
     <ClInclude Include="Servis.h" />
     <ClInclude Include="ServisDetail.h" />
     <ClInclude Include="SukuCadang.h" />
