@@ -382,24 +382,58 @@ void menuServis(Database& db) {
             std::cout << "✅ Status berhasil diupdate.\n";
             break;
         }
-		case 5: {
-            auto* res = db.query("SELECT * FROM servis WHERE status = 'Selesai'");
+        case 5: { // Asumsi ini adalah case untuk "Lihat Semua Servis" atau "Lihat Riwayat Servis"
+            // Menggunakan JOIN untuk mengambil nama pelanggan dan merk/plat nomor kendaraan
+                auto* res = db.query(R"(
+                SELECT
+                    s.id,
+                    s.id_kendaraan,
+                    s.id_teknisi,
+                    s.keluhan,
+                    s.tanggal,
+                    s.status,
+                    k.merk AS merk_kendaraan,         -- Ambil merk dari tabel kendaraan
+                    k.plat_nomor AS plat_kendaraan,   -- Ambil plat_nomor dari tabel kendaraan
+                    p.nama AS nama_pelanggan          -- Ambil nama dari tabel pelanggan
+                FROM
+                    servis s
+                JOIN
+                    kendaraan k ON s.id_kendaraan = k.id
+                JOIN
+                    pelanggan p ON k.id_pelanggan = p.id
+                WHERE
+                    s.status = 'Selesai'              -- Jika Anda hanya ingin servis yang 'Selesai'
+                ORDER BY
+                    s.tanggal DESC                    -- Opsional: Urutkan berdasarkan tanggal terbaru
+            )");
+
             if (!res) {
                 std::cerr << "❌ Gagal mengambil data servis.\n";
                 break;
             }
-            std::cout << "\n=== Riwayat Servis ===\n";
-            while (res->next()) {
-                std::cout << "ID: " << res->getInt("id")
-                    << ", Kendaraan ID: " << res->getInt("id_kendaraan")
-                    << ", Teknisi ID: " << res->getInt("id_teknisi")
-                    << ", Keluhan: " << res->getString("keluhan")
-                    << ", Tanggal: " << res->getString("tanggal")
-                    << ", Status: " << res->getString("status") << "\n";
+
+            std::cout << "\n=== Riwayat Servis Selesai ===\n"; // Ubah judul sesuai filter
+            if (res->rowsCount() == 0) {
+                std::cout << "Tidak ada riwayat servis dengan status 'Selesai'.\n";
+            }
+            else {
+                while (res->next()) {
+                    std::cout << "-------------------------------------------\n";
+                    std::cout << "ID Servis      : " << res->getInt("id") << "\n";
+                    std::cout << "Nama Pelanggan : " << res->getString("nama_pelanggan") << "\n";
+                    std::cout << "Kendaraan      : " << res->getString("merk_kendaraan")
+                        << " (Plat: " << res->getString("plat_kendaraan") << ")\n";
+                    // Anda bisa tampilkan ID Kendaraan & Teknisi jika masih diperlukan, tapi sekarang ada detail nama
+                    // std::cout << "Kendaraan ID   : " << res->getInt("id_kendaraan") << "\n";
+                    // std::cout << "Teknisi ID     : " << res->getInt("id_teknisi") << "\n";
+                    std::cout << "Keluhan        : " << res->getString("keluhan") << "\n";
+                    std::cout << "Tanggal        : " << res->getString("tanggal") << "\n";
+                    std::cout << "Status         : " << res->getString("status") << "\n";
+                }
             }
             delete res;
             break;
-		}
+        }
         
         case 6:
             std::cout << "↩️ Kembali ke menu utama...\n";
@@ -552,12 +586,13 @@ void menuPembayaranServis(Database& db) {
         switch (pilih) {
         case 1: {
             // Tampilkan daftar servis selesai yang belum dibayar
+            // Perbaikan JOIN pelanggan, dari alias 'm' ke 'k'
             auto* res = db.query(R"(
                 SELECT s.id, s.id_kendaraan, s.id_teknisi, s.keluhan, s.tanggal, s.status,
                        k.plat_nomor, k.merk, p.nama
                 FROM servis s
                 JOIN kendaraan k ON s.id_kendaraan = k.id
-                JOIN pelanggan p ON m.id_pelanggan = p.id
+                JOIN pelanggan p ON k.id_pelanggan = p.id
                 WHERE s.status = 'Selesai' AND s.status_pembayaran = 'Belum Bayar'
             )");
 
@@ -571,8 +606,8 @@ void menuPembayaranServis(Database& db) {
             while (res->next()) {
                 std::cout << "ID Servis      : " << res->getInt("id") << "\n"
                     << "Pelanggan      : " << res->getString("nama") << "\n"
-                    << "Plat Nomor     : " << res->getString("plat_nomor") << "\n"
-                    << "Merk Motor     : " << res->getString("merk") << "\n"
+                    << "Plat Nomor     : " << res->getString("plat_nomor") << "\n" // Menggunakan plat_nomor
+                    << "Merk Kendaraan : " << res->getString("merk") << "\n"       // Menggunakan merk
                     << "Keluhan        : " << res->getString("keluhan") << "\n"
                     << "Tanggal Servis : " << res->getString("tanggal") << "\n"
                     << "--------------------------------------------\n";
@@ -582,7 +617,7 @@ void menuPembayaranServis(Database& db) {
             int id_servis;
             std::cout << "\nMasukkan ID Servis yang ingin dibayar: ";
             std::cin >> id_servis;
-            std::cin.ignore();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Pastikan buffer clear
 
             PembayaranService p;
             p.id_servis = id_servis;
@@ -607,15 +642,16 @@ void menuPembayaranServis(Database& db) {
 
         case 2: {
             std::cout << "\n=== RIWAYAT PEMBAYARAN SERVIS ===\n";
+            // Perbaikan JOIN motor m ON s.id_kendaraan = m.id menjadi JOIN kendaraan k
             std::string sql = R"(
                 SELECT ps.id_servis, ps.tanggal_pembayaran, ps.jumlah, ps.metode, ps.status,
                        s.keluhan, s.tanggal AS tanggal_servis, s.id_kendaraan,
-                       m.plat_nomor, m.merk,
+                       k.plat_nomor, k.merk,
                        p.nama AS nama_pelanggan
                 FROM pembayaran_servis ps
                 JOIN servis s ON ps.id_servis = s.id
-                JOIN motor m ON s.id_kendaraan = m.id
-                JOIN pelanggan p ON m.id_pelanggan = p.id
+                JOIN kendaraan k ON s.id_kendaraan = k.id
+                JOIN pelanggan p ON k.id_pelanggan = p.id
                 ORDER BY ps.tanggal_pembayaran DESC
             )";
 
@@ -630,8 +666,8 @@ void menuPembayaranServis(Database& db) {
             while (res->next()) {
                 std::cout << "ID Servis          : " << res->getInt("id_servis") << "\n"
                     << "Nama Pelanggan     : " << res->getString("nama_pelanggan") << "\n"
-                    << "Plat Nomor         : " << res->getString("plat_nomor") << "\n"
-                    << "Merk Motor         : " << res->getString("merk") << "\n"
+                    << "Plat Nomor         : " << res->getString("plat_nomor") << "\n" // Menggunakan plat_nomor
+                    << "Merk Kendaraan     : " << res->getString("merk") << "\n"       // Menggunakan merk
                     << "Keluhan            : " << res->getString("keluhan") << "\n"
                     << "Tanggal Servis     : " << res->getString("tanggal_servis") << "\n"
                     << "Tanggal Pembayaran : " << res->getString("tanggal_pembayaran") << "\n"
