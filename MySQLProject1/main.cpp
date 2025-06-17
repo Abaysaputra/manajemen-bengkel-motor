@@ -3,6 +3,7 @@
 #include "Database.h"
 #include "Interface.h"
 #include "Utils.h"
+
  
 int main() {
     Database db;
@@ -19,8 +20,9 @@ int main() {
         std::cout << "4. Kelola Teknisi\n";
         std::cout << "5. Kelola Suku Cadang\n";
 		std::cout << "6. Kelola Pembayaran\n";
-        std::cout << "7. Laporan & Ekspor CSV\n";
-        std::cout << "8. Keluar\n";
+		std::cout << "7. Transaksi Suku Cadang\n";
+        std::cout << "8. Laporan & Ekspor CSV\n";
+        std::cout << "9. Keluar\n";
         pilihan = getValidatedInt("Pilihan: ");
 
         clearScreen(); // Bersihkan sebelum eksekusi aksi menu
@@ -45,9 +47,12 @@ int main() {
             menuPembayaranServis(db);
             break;
         case 7:
-            menuLaporan(db);
+            menuTransaksiSukuCadang(db);
             break;
         case 8:
+            menuLaporan(db);
+            break;
+        case 9:
             std::cout << "👋 Terima kasih telah menggunakan aplikasi!\n";
             break;
         default:

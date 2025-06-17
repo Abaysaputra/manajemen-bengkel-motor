@@ -13,5 +13,6 @@ void menuTeknisi(Database& db);
 void menuSukuCadang(Database& db);
 void menuPembayaranServis(Database& db);
 void menuLaporan(Database& db);
+void menuTransaksiSukuCadang(Database& db);
 
 #endif // INTERFACE_H

@@ -6,6 +6,7 @@
 #include "Servis.h"
 #include "Teknisi.h"
 #include "SukuCadang.h"
+#include "TransaksiSukuCadang.h"
 #include "PembayaranServis.h"
 #include <iostream>
 #include <fstream>
@@ -886,6 +887,99 @@ void menuPembayaranServis(Database& db) {
     } while (pilih != 3); // Loop akan terus berjalan sampai pengguna memilih 3
 }
 
+void menuTransaksiSukuCadang(Database& db) {
+    int pilih;
+    do {
+        clearScreen();
+        std::cout << "\n=== MENU TRANSAKSI SUKU CADANG ===\n";
+        std::cout << "1. Tambah Transaksi\n";
+        std::cout << "2. Lihat Riwayat Transaksi\n";
+        std::cout << "3. Kembali\n";
+        pilih = getValidatedInt("Pilihan: ");
+        clearScreen();
+
+        switch (pilih) {
+        case 1: {
+            // Tampilkan suku cadang
+            auto* res = db.query("SELECT * FROM suku_cadang");
+            if (!res || res->rowsCount() == 0) {
+                std::cout << "❌ Tidak ada suku cadang tersedia.\n";
+                if (res) delete res;
+                pause();
+                break;
+            }
+
+            std::cout << "\n=== DAFTAR SUKU CADANG ===\n";
+            while (res->next()) {
+                std::cout << "ID: " << res->getInt("id")
+                    << " | Nama: " << res->getString("nama")
+                    << " | Jenis: " << res->getString("jenis")
+                    << " | Stok: " << res->getInt("stok")
+                    << " | Harga: Rp" << res->getDouble("harga") << "\n";
+            }
+            delete res;
+
+            int id_suku_cadang;
+            std::cout << "\nMasukkan ID Suku Cadang yang ingin ditransaksikan: ";
+            std::cin >> id_suku_cadang;
+
+            TransaksiSukuCadang trx(id_suku_cadang);
+            trx.inputData();
+
+            // Simpan ke database
+            std::string sql = "INSERT INTO transaksi_suku_cadang (id_suku_cadang, tanggal, jumlah, jenis) VALUES (" +
+                std::to_string(trx.id_suku_cadang) + ", '" +
+                trx.tanggal + "', " +
+                std::to_string(trx.jumlah) + ", '" +
+                trx.jenis + "')";
+
+            db.execute(sql);
+            std::cout << "✅ Transaksi berhasil ditambahkan.\n";
+            pause();
+            break;
+        }
+
+        case 2: {
+            std::string sql = R"(
+                SELECT t.id, s.nama AS suku_cadang, s.jenis, t.tanggal, t.jumlah, t.jenis AS jenis_transaksi
+                FROM transaksi_suku_cadang t
+                JOIN suku_cadang s ON t.id_suku_cadang = s.id
+                ORDER BY t.tanggal DESC
+            )";
+
+            auto* res = db.query(sql);
+            if (!res || res->rowsCount() == 0) {
+                std::cout << "❌ Belum ada transaksi tercatat.\n";
+                if (res) delete res;
+                pause();
+                break;
+            }
+
+            std::cout << "\n=== RIWAYAT TRANSAKSI SUKU CADANG ===\n";
+            while (res->next()) {
+                std::cout << "ID Transaksi   : " << res->getInt("id") << "\n"
+                    << "Suku Cadang    : " << res->getString("suku_cadang") << " (" << res->getString("jenis") << ")\n"
+                    << "Tanggal        : " << res->getString("tanggal") << "\n"
+                    << "Jumlah         : " << res->getInt("jumlah") << "\n"
+                    << "Jenis Transaksi: " << res->getString("jenis_transaksi") << "\n"
+                    << "-----------------------------------------\n";
+            }
+            delete res;
+            pause();
+            break;
+        }
+
+        case 3:
+            std::cout << "↩️ Kembali ke menu utama...\n";
+            break;
+
+        default:
+            std::cout << "❌ Pilihan tidak valid.\n";
+            pause();
+            break;
+        }
+    } while (pilih != 3);
+}
 
 
 

@@ -48,6 +48,9 @@
     <ClCompile Include="utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="transaksiSukuCadang.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pelanggan.h">
@@ -78,6 +81,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="TransaksiSukuCadang.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
