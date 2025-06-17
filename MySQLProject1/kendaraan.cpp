@@ -2,7 +2,6 @@
 #include <iostream>
 
 
-
 void Kendaraan::inputData() {
     std::cout << "\nMasukkan ID Pelanggan (lihat daftar di atas): ";
     std::cin >> id_pelanggan;

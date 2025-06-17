@@ -13,7 +13,7 @@ public:
         std::cout << "Jumlah yang digunakan: ";
         std::cin >> jumlah;
         std::cin.ignore();
-    }
+    }            
 };
 
 #endif

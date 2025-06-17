@@ -135,6 +135,7 @@
     <ClCompile Include="servis.cpp" />
     <ClCompile Include="sukuCadang.cpp" />
     <ClCompile Include="teknisi.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="ServisDetail.h" />
     <ClInclude Include="SukuCadang.h" />
     <ClInclude Include="Teknisi.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
