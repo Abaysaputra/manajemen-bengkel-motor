@@ -1,41 +1,43 @@
 #include "PembayaranServis.h"
 #include <iostream>
 
+using namespace std;
+
 void PembayaranService::inputData() {
 
-    std::cout << "Tanggal Pembayaran (YYYY-MM-DD): ";
-    std::getline(std::cin >> std::ws, tanggal_pembayaran);
+    cout << "Tanggal Pembayaran (YYYY-MM-DD): ";
+    getline(cin >> ws, tanggal_pembayaran);
     while (tanggal_pembayaran.empty()) {
-        std::cout << "? Tanggal tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, tanggal_pembayaran);
+        cout << "? Tanggal tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, tanggal_pembayaran);
     }
 
-    std::cout << "Jumlah Pembayaran: ";
-    std::cin >> jumlah;
+    cout << "Jumlah Pembayaran: ";
+    cin >> jumlah;
     while (jumlah <= 0) {
-        std::cout << "? Jumlah tidak valid. Masukkan ulang: ";
-        std::cin >> jumlah;
+        cout << "? Jumlah tidak valid. Masukkan ulang: ";
+        cin >> jumlah;
     }
 
-    std::cout << "Metode Pembayaran (Cash/Transfer/etc): ";
-    std::getline(std::cin >> std::ws, metode);
+    cout << "Metode Pembayaran (Cash/Transfer/etc): ";
+    getline(cin >> ws, metode);
     while (metode.empty()) {
-        std::cout << "? Metode tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, metode);
+        cout << "? Metode tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, metode);
     }
 
-    std::cout << "Status (Lunas/Belum Lunas): ";
-    std::getline(std::cin >> std::ws, status);
+    cout << "Status (Lunas/Belum Lunas): ";
+    getline(cin >> ws, status);
     while (status.empty()) {
-        std::cout << "? Status tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, status);
+        cout << "? Status tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, status);
     }
 }
 
 void PembayaranService::tampilkanData() {
-    std::cout << "ID Servis         : " << id_servis << "\n";
-    std::cout << "Tanggal Pembayaran: " << tanggal_pembayaran << "\n";
-    std::cout << "Jumlah            : Rp" << jumlah << "\n";
-    std::cout << "Metode            : " << metode << "\n";
-    std::cout << "Status            : " << status << "\n";
+    cout << "ID Servis         : " << id_servis << "\n";
+    cout << "Tanggal Pembayaran: " << tanggal_pembayaran << "\n";
+    cout << "Jumlah            : Rp" << jumlah << "\n";
+    cout << "Metode            : " << metode << "\n";
+    cout << "Status            : " << status << "\n";
 }

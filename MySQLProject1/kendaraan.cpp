@@ -1,34 +1,36 @@
 ﻿#include "Kendaraan.h"
 #include <iostream>
 
+using namespace std;
+
 
 void Kendaraan::inputData() {
-    std::cout << "\nMasukkan ID Pelanggan (lihat daftar di atas): ";
-    std::cin >> id_pelanggan;
+    cout << "\nMasukkan ID Pelanggan (lihat daftar di atas): ";
+    cin >> id_pelanggan;
 
-    std::cin.ignore();
-    std::cout << "Plat Nomor: ";
-    std::getline(std::cin, plat_nomor);
+    cin.ignore();
+    cout << "Plat Nomor: ";
+    getline(cin, plat_nomor);
     while (plat_nomor.empty()) {
-        std::cout << "❌ Plat nomor tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin, plat_nomor);
+        cout << "❌ Plat nomor tidak boleh kosong. Masukkan ulang: ";
+        getline(cin, plat_nomor);
     }
 
-    std::cout << "Merk: ";
-    std::getline(std::cin, merk);
+    cout << "Merk: ";
+    getline(cin, merk);
     while (merk.empty()) {
-        std::cout << "❌ Merk tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin, merk);
+        cout << "❌ Merk tidak boleh kosong. Masukkan ulang: ";
+        getline(cin, merk);
     }
 
-    std::cout << "Tahun: ";
-    std::cin >> tahun;
+    cout << "Tahun: ";
+    cin >> tahun;
     while (tahun < 1900 || tahun > 2100) {
-        std::cout << "❌ Tahun tidak valid. Masukkan tahun antara 1900-2100: ";
-        std::cin >> tahun;
+        cout << "❌ Tahun tidak valid. Masukkan tahun antara 1900-2100: ";
+        cin >> tahun;
     }
 }
 
 void Kendaraan::tampilkanData() {
-    std::cout << "Plat: " << plat_nomor << "\nMerk: " << merk << "\nTahun: " << tahun << "\n";
+    cout << "Plat: " << plat_nomor << "\nMerk: " << merk << "\nTahun: " << tahun << "\n";
 }

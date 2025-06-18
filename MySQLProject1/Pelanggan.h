@@ -1,12 +1,14 @@
 #pragma once
 #include <string>
 
+using namespace std;
+
 class Pelanggan {
 public:
     int id;
-    std::string nama;
-    std::string no_hp;
-    std::string alamat;
+    string nama;
+    string no_hp;
+    string alamat;
 
     void inputData();
     void tampilkanData();

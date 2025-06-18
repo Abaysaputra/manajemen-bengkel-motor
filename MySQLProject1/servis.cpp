@@ -1,35 +1,37 @@
 ﻿#include "Servis.h"
 #include <iostream>
 
+using namespace std;
+
 void Servis::inputData() {
-    std::cout << "ID Kendaraan: ";
-    std::cin >> id_kendaraan;
-    std::cout << "ID Teknisi: ";
-    std::cin >> id_teknisi;
-    std::cin.ignore();
+    cout << "ID Kendaraan: ";
+    cin >> id_kendaraan;
+    cout << "ID Teknisi: ";
+    cin >> id_teknisi;
+    cin.ignore();
 
-    std::cout << "Keluhan: ";
-    std::getline(std::cin, keluhan);
+    cout << "Keluhan: ";
+    getline(cin, keluhan);
     while (keluhan.empty()) {
-        std::cout << "❌ Keluhan tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin, keluhan);
+        cout << "❌ Keluhan tidak boleh kosong. Masukkan ulang: ";
+        getline(cin, keluhan);
     }
 
-    std::cout << "Tanggal (YYYY-MM-DD): ";
-    std::getline(std::cin, tanggal);
+    cout << "Tanggal (YYYY-MM-DD): ";
+    getline(cin, tanggal);
     while (tanggal.empty()) {
-        std::cout << "❌ Tanggal tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin, tanggal);
+        cout << "❌ Tanggal tidak boleh kosong. Masukkan ulang: ";
+        getline(cin, tanggal);
     }
 
-    std::cout << "Status (Diproses, Selesai) : ";
-    std::getline(std::cin, status);
+    cout << "Status (Diproses, Selesai) : ";
+    getline(cin, status);
     while (status.empty()) {
-        std::cout << "❌ Status tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin, status);
+        cout << "❌ Status tidak boleh kosong. Masukkan ulang: ";
+        getline(cin, status);
     }
 }
 
 void Servis::tampilkanData() {
-    std::cout << "Tanggal: " << tanggal << "\nKeluhan: " << keluhan << "\nStatus: " << status << "\n";
+    cout << "Tanggal: " << tanggal << "\nKeluhan: " << keluhan << "\nStatus: " << status << "\n";
 }

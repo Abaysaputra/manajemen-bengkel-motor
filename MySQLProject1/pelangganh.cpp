@@ -1,29 +1,31 @@
 ﻿#include "Pelanggan.h"
 #include <iostream>
 
+using namespace std;
+
 void Pelanggan::inputData() {
-    std::cout << "Nama Pelanggan: ";
-    std::getline(std::cin >> std::ws, nama);
+    cout << "Nama Pelanggan: ";
+    getline(cin >> ws, nama);
     while (nama.empty()) {
-        std::cout << "❌ Nama tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, nama);
+        cout << "❌ Nama tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, nama);
     }
 
-    std::cout << "No HP: ";
-    std::getline(std::cin >> std::ws, no_hp);
+    cout << "No HP: ";
+    getline(cin >> ws, no_hp);
     while (no_hp.empty()) {
-        std::cout << "❌ No HP tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, no_hp);
+        cout << "❌ No HP tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, no_hp);
     }
 
-    std::cout << "Alamat: ";
-    std::getline(std::cin >> std::ws, alamat);
+    cout << "Alamat: ";
+    getline(cin >> ws, alamat);
     while (alamat.empty()) {
-        std::cout << "❌ Alamat tidak boleh kosong. Masukkan ulang: ";
-        std::getline(std::cin >> std::ws, alamat);
+        cout << "❌ Alamat tidak boleh kosong. Masukkan ulang: ";
+        getline(cin >> ws, alamat);
     }
 }
 
 void Pelanggan::tampilkanData() {
-    std::cout << "Nama: " << nama << "\nNo HP: " << no_hp << "\nAlamat: " << alamat << "\n";
+    cout << "Nama: " << nama << "\nNo HP: " << no_hp << "\nAlamat: " << alamat << "\n";
 }

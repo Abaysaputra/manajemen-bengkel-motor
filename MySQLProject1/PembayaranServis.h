@@ -1,14 +1,16 @@
 #pragma once
 #include <string>
 
+using namespace std;
+
 class PembayaranService {
 public:
     int id_pembayaran;
     int id_servis;
-    std::string tanggal_pembayaran;
+    string tanggal_pembayaran;
     double jumlah;
-    std::string metode;
-    std::string status;
+    string metode;
+    string status;
 
     void inputData();
     void tampilkanData();

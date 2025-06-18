@@ -5,6 +5,8 @@
 #include <cppconn/statement.h>
 #include <cppconn/resultset.h>
 
+using namespace std;
+
 class Database {
 private:
     sql::Driver* driver;
@@ -14,6 +16,6 @@ public:
     Database();
     ~Database();
     void connect();
-    sql::ResultSet* query(const std::string& sql);
-    void execute(const std::string& sql);
+    sql::ResultSet* query(const string& sql);
+    void execute(const string& sql);
 };
