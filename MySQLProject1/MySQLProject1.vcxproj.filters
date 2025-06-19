@@ -92,5 +92,8 @@
     <ClInclude Include="User.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="Transaksi.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

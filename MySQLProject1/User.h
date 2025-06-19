@@ -3,7 +3,7 @@
 #include <iostream>
 
 class User {
-protected: // Data disembunyikan dari akses luar, hanya bisa diakses oleh kelas ini dan turunannya
+protected: 
     int id;
     std::string nama;
 
@@ -17,8 +17,6 @@ public:
     virtual void inputData();
     virtual void tampilkanData();
 
-    // --- Public Getters ---
-    // Menyediakan akses 'read-only' yang aman ke data protected
     int getID() const;
     std::string getNama() const;
 };
