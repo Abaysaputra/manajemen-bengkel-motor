@@ -1,13 +1,12 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
 class SukuCadang {
 public:
     int id;
-    string nama;
-	string jenis;
+    std::string nama;
+	std::string jenis;
     int stok;
     double harga;
 

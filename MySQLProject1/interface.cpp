@@ -1,6 +1,6 @@
-﻿#include "Database.h" // Include header Database untuk koneksi ke database
-#include "Interface.h" // Include header baru
-#include "Utils.h"      // Include fungsi bantu
+﻿#include "Database.h" 
+#include "Interface.h" 
+#include "Utils.h"      
 #include "Pelanggan.h"
 #include "Kendaraan.h"
 #include "Servis.h"
@@ -10,7 +10,7 @@
 #include "PembayaranServis.h"
 #include <iostream>
 #include <fstream>
-#include <vector> // Untuk vector di menuPelanggan
+#include <vector> 
 
 using namespace std;
 
@@ -31,12 +31,14 @@ void menuPelanggan(Database& db) {
             Pelanggan p;
             p.inputData();
 
-            string nama_escaped = escape_sql_string(p.nama);
+            
+            string nama_escaped = escape_sql_string(p.getNama());
             string no_hp_escaped = escape_sql_string(p.no_hp);
             string alamat_escaped = escape_sql_string(p.alamat);
 
             string sql = "INSERT INTO pelanggan (nama, no_hp, alamat) VALUES ('" +
                 nama_escaped + "', '" + no_hp_escaped + "', '" + alamat_escaped + "')";
+
 
             try {
                 db.execute(sql);
@@ -303,13 +305,13 @@ void menuServis(Database& db) {
     int pilih;
     do {
         clearScreen();
-        cout << "\n--- MENU SERVIS ---\n";
-        cout << "1. Tambah Servis\n";
-        cout << "2. Lihat Service (Aktif)\n";
-        cout << "3. Hapus Servis\n";
-        cout << "4. Update Status Servis\n";
-        cout << "5. Tampilkan riwayat servis\n";
-        cout << "6. Kembali\n";
+        std::cout << "\n--- MENU SERVIS ---\n";
+        std::cout << "1. Tambah Servis\n";
+        std::cout << "2. Lihat Service (Aktif)\n";
+        std::cout << "3. Hapus Servis\n";
+        std::cout << "4. Update Status Servis\n";
+        std::cout << "5. Tampilkan riwayat servis\n";
+        std::cout << "6. Kembali\n";
         pilih = getValidatedInt("Pilihan: ");
         clearScreen();
 
@@ -318,14 +320,14 @@ void menuServis(Database& db) {
             // Tampilkan daftar kendaraan
             auto* resKendaraan = db.query("SELECT * FROM kendaraan");
             if (!resKendaraan || !resKendaraan->rowsCount()) {
-                cout << "❌ Tidak ada data kendaraan. Tambahkan kendaraan terlebih dahulu.\n";
+                std::cout << "❌ Tidak ada data kendaraan. Tambahkan kendaraan terlebih dahulu.\n";
                 delete resKendaraan;
                 break;
             }
 
-            cout << "\n=== Daftar Kendaraan ===\n";
+            std::cout << "\n=== Daftar Kendaraan ===\n";
             while (resKendaraan->next()) {
-                cout << "ID: " << resKendaraan->getInt("id")
+                std::cout << "ID: " << resKendaraan->getInt("id")
                     << ", Merk: " << resKendaraan->getString("merk")
                     << ", Plat: " << resKendaraan->getString("plat_nomor")
                     << ", Tahun: " << resKendaraan->getInt("tahun") << "\n";
@@ -335,14 +337,14 @@ void menuServis(Database& db) {
             // Tampilkan daftar teknisi
             auto* resTeknisi = db.query("SELECT * FROM teknisi");
             if (!resTeknisi || !resTeknisi->rowsCount()) {
-                cout << "❌ Tidak ada data teknisi. Tambahkan teknisi terlebih dahulu.\n";
+                std::cout << "❌ Tidak ada data teknisi. Tambahkan teknisi terlebih dahulu.\n";
                 delete resTeknisi;
                 break;
             }
 
-            cout << "\n=== Daftar Teknisi ===\n";
+            std::cout << "\n=== Daftar Teknisi ===\n";
             while (resTeknisi->next()) {
-                cout << "ID: " << resTeknisi->getInt("id")
+                std::cout << "ID: " << resTeknisi->getInt("id")
                     << ", Nama: " << resTeknisi->getString("nama")
                     << ", Keahlian: " << resTeknisi->getString("keahlian") << "\n";
             }
@@ -352,28 +354,28 @@ void menuServis(Database& db) {
             Servis s;
             s.inputData();
 
-            string sql = "INSERT INTO servis (id_kendaraan, keluhan, id_teknisi, status, tanggal) VALUES (" +
-                to_string(s.id_kendaraan) + ", '" + s.keluhan + "', " +
-                to_string(s.id_teknisi) + ", '" + s.status + "', '" + s.tanggal + "')";
+            std::string sql = "INSERT INTO servis (id_kendaraan, keluhan, id_teknisi, status, tanggal) VALUES (" +
+                std::to_string(s.id_kendaraan) + ", '" + s.keluhan + "', " +
+                std::to_string(s.id_teknisi) + ", '" + s.status + "', '" + s.tanggal + "')";
 
             // Pilihan suku cadang
             char pakaiCadang;
-            cout << "Apakah servis menggunakan suku cadang? (y/n): ";
-            cin >> pakaiCadang;
-            cin.ignore();
+            std::cout << "Apakah servis menggunakan suku cadang? (y/n): ";
+            std::cin >> pakaiCadang;
+            std::cin.ignore();
 
             if (pakaiCadang == 'y' || pakaiCadang == 'Y') {
                 // Tampilkan suku cadang
                 auto* resCadang = db.query("SELECT * FROM suku_cadang");
                 if (!resCadang || !resCadang->rowsCount()) {
-                    cout << "❌ Tidak ada data suku cadang. Tambahkan terlebih dahulu.\n";
+                    std::cout << "❌ Tidak ada data suku cadang. Tambahkan terlebih dahulu.\n";
                     delete resCadang;
                     break;
                 }
 
-                cout << "\n=== Daftar Suku Cadang ===\n";
+                std::cout << "\n=== Daftar Suku Cadang ===\n";
                 while (resCadang->next()) {
-                    cout << "ID: " << resCadang->getInt("id")
+                    std::cout << "ID: " << resCadang->getInt("id")
                         << ", Nama: " << resCadang->getString("nama")
                         << ", Jenis: " << resCadang->getString("jenis")
                         << ", Stok: " << resCadang->getInt("stok")
@@ -385,10 +387,10 @@ void menuServis(Database& db) {
                 int idCadang = getValidatedInt("Masukkan ID suku cadang: ");
                 int jumlahPakai = getValidatedInt("Masukkan jumlah yang dipakai: ");
 
-                string sqlCheck = "SELECT stok FROM suku_cadang WHERE id = " + to_string(idCadang);
+                std::string sqlCheck = "SELECT stok FROM suku_cadang WHERE id = " + std::to_string(idCadang);
                 sql::ResultSet* resCheck = db.query(sqlCheck);
                 if (!resCheck || !resCheck->next()) {
-                    cout << "❌ Suku cadang tidak ditemukan.\n";
+                    std::cout << "❌ Suku cadang tidak ditemukan.\n";
                     if (resCheck) delete resCheck;
                     break;
                 }
@@ -399,19 +401,19 @@ void menuServis(Database& db) {
                 if (stokTersedia >= jumlahPakai) {
                     if (kurangiStokSukuCadang(db, idCadang, jumlahPakai)) {
                         db.execute(sql);
-                        cout << "✅ Servis berhasil disimpan dan stok suku cadang dikurangi.\n";
+                        std::cout << "✅ Servis berhasil disimpan dan stok suku cadang dikurangi.\n";
                     }
                     else {
-                        cout << "❌ Gagal mengurangi stok suku cadang.\n";
+                        std::cout << "❌ Gagal mengurangi stok suku cadang.\n";
                     }
                 }
                 else {
-                    cout << "❌ Stok tidak cukup! Maksimum: " << stokTersedia << "\n";
+                    std::cout << "❌ Stok tidak cukup! Maksimum: " << stokTersedia << "\n";
                 }
             }
             else {
                 db.execute(sql);
-                cout << "✅ Servis berhasil disimpan.\n";
+                std::cout << "✅ Servis berhasil disimpan.\n";
             }
             break;
         }
@@ -419,23 +421,19 @@ void menuServis(Database& db) {
         case 2: {
             auto* res = db.query("SELECT * FROM servis WHERE status = 'Diproses'");
             if (!res) {
-                cerr << "❌ Gagal mengambil data servis.\n";
+                std::cerr << "❌ Gagal mengambil data servis.\n";
                 break;
             }
 
             while (res->next()) {
-                cout << "\n[Servis ID: " << res->getInt("id") << "]\n";
-                cout << "Kendaraan: " << res->getInt("id_kendaraan")
+                std::cout << "\n[Servis ID: " << res->getInt("id") << "]\n";
+                std::cout << "Kendaraan: " << res->getInt("id_kendaraan")
                     << ", Teknisi: " << res->getInt("id_teknisi") << "\n";
-                cout << "Tanggal: " << res->getString("tanggal") << "\n";
-                cout << "Keluhan: " << res->getString("keluhan") << "\n";
-                cout << "Status: " << res->getString("status") << "\n";
+                std::cout << "Tanggal: " << res->getString("tanggal") << "\n";
+                std::cout << "Keluhan: " << res->getString("keluhan") << "\n";
+                std::cout << "Status: " << res->getString("status") << "\n";
             }
             delete res;
-            if (res->rowsCount() == 0) {
-                cout << "Tidak ada servis yang sedang diproses.\n";
-			}
-			pause(); 
             break;
         }
 
@@ -443,13 +441,13 @@ void menuServis(Database& db) {
             // daftar servis
             auto* res = db.query("SELECT * FROM servis");
             if (!res || !res->rowsCount()) {
-                cout << "❌ Tidak ada data servis untuk dihapus.\n";
+                std::cout << "❌ Tidak ada data servis untuk dihapus.\n";
                 if (res) delete res;
                 break;
             }
-            cout << "\n=== Daftar Servis ===\n";
+            std::cout << "\n=== Daftar Servis ===\n";
             while (res->next()) {
-                cout << "ID: " << res->getInt("id")
+                std::cout << "ID: " << res->getInt("id")
                     << ", Kendaraan ID: " << res->getInt("id_kendaraan")
                     << ", Teknisi ID: " << res->getInt("id_teknisi")
                     << ", Keluhan: " << res->getString("keluhan")
@@ -458,10 +456,9 @@ void menuServis(Database& db) {
             }
             delete res;
 
-
             int idHapus = getValidatedInt("ID Servis yang ingin dihapus: ");
-            db.execute("DELETE FROM servis WHERE id = " + to_string(idHapus));
-            cout << "✅ Servis berhasil dihapus.\n";
+            db.execute("DELETE FROM servis WHERE id = " + std::to_string(idHapus));
+            std::cout << "✅ Servis berhasil dihapus.\n";
             break;
         }
 
@@ -469,12 +466,12 @@ void menuServis(Database& db) {
             auto* res = db.query("SELECT * FROM servis WHERE status != 'Selesai'");
 
             if (!res) {
-                cerr << "❌ Gagal mengambil data servis.\n";
+                std::cerr << "❌ Gagal mengambil data servis.\n";
                 break;
             }
-            cout << "\n=== Daftar Servis Aktif ===\n";
+            std::cout << "\n=== Daftar Servis Aktif ===\n";
             while (res->next()) {
-                cout << "ID: " << res->getInt("id")
+                std::cout << "ID: " << res->getInt("id")
                     << ", Kendaraan ID: " << res->getInt("id_kendaraan")
                     << ", Teknisi ID: " << res->getInt("id_teknisi")
                     << ", Keluhan: " << res->getString("keluhan")
@@ -484,12 +481,12 @@ void menuServis(Database& db) {
             delete res;
 
             int idUpdate = getValidatedInt("ID Servis yang ingin diupdate: ");
-            string statusBaru;
-            cout << "Status baru: ";
-            getline(cin, statusBaru);
-            string sql = "UPDATE servis SET status = '" + statusBaru + "' WHERE id = " + to_string(idUpdate);
+            std::string statusBaru;
+            std::cout << "Status baru: ";
+            std::getline(std::cin, statusBaru);
+            std::string sql = "UPDATE servis SET status = '" + statusBaru + "' WHERE id = " + std::to_string(idUpdate);
             db.execute(sql);
-            cout << "✅ Status berhasil diupdate.\n";
+            std::cout << "✅ Status berhasil diupdate.\n";
             break;
         }
         case 5: { // Asumsi ini adalah case untuk "Lihat Semua Servis" atau "Lihat Riwayat Servis"
@@ -518,41 +515,41 @@ void menuServis(Database& db) {
             )");
 
             if (!res) {
-                cerr << "❌ Gagal mengambil data servis.\n";
+                std::cerr << "❌ Gagal mengambil data servis.\n";
                 break;
             }
 
-            cout << "\n=== Riwayat Servis Selesai ===\n"; // Ubah judul sesuai filter
+            std::cout << "\n=== Riwayat Servis Selesai ===\n"; // Ubah judul sesuai filter
             if (res->rowsCount() == 0) {
-                cout << "Tidak ada riwayat servis dengan status 'Selesai'.\n";
+                std::cout << "Tidak ada riwayat servis dengan status 'Selesai'.\n";
             }
             else {
                 while (res->next()) {
-                    cout << "-------------------------------------------\n";
-                    cout << "ID Servis      : " << res->getInt("id") << "\n";
-                    cout << "Nama Pelanggan : " << res->getString("nama_pelanggan") << "\n";
-                    cout << "Kendaraan      : " << res->getString("merk_kendaraan")
+                    std::cout << "-------------------------------------------\n";
+                    std::cout << "ID Servis      : " << res->getInt("id") << "\n";
+                    std::cout << "Nama Pelanggan : " << res->getString("nama_pelanggan") << "\n";
+                    std::cout << "Kendaraan      : " << res->getString("merk_kendaraan")
                         << " (Plat: " << res->getString("plat_kendaraan") << ")\n";
-                    cout << "Keluhan        : " << res->getString("keluhan") << "\n";
-                    cout << "Tanggal        : " << res->getString("tanggal") << "\n";
-                    cout << "Status         : " << res->getString("status") << "\n";
+                    std::cout << "Keluhan        : " << res->getString("keluhan") << "\n";
+                    std::cout << "Tanggal        : " << res->getString("tanggal") << "\n";
+                    std::cout << "Status         : " << res->getString("status") << "\n";
                 }
             }
             delete res;
-			pause(); 
             break;
         }
 
         case 6:
-            cout << "↩️ Kembali ke menu utama...\n";
+            std::cout << "↩ Kembali ke menu utama...\n";
             break;
+
         default:
-            cout << "❌ Pilihan tidak valid!\n";
+            std::cout << "❌ Pilihan tidak valid!\n";
         }
 
+        pause();
     } while (pilih != 6);
 }
-
 void menuSukuCadang(Database& db) {
     int pilih;
     do {
@@ -658,8 +655,9 @@ void menuTeknisi(Database& db) {
         clearScreen();
         cout << "\n--- MENU TEKNISI ---\n";
         cout << "1. Tambah Teknisi\n";
-        cout << "2. Hapus Teknisi\n";  // Opsi Hapus Teknisi
-        cout << "3. Kembali\n";        // Opsi Kembali, diubah menjadi 3
+        cout << "2. Lihat Semua Teknisi\n";
+        cout << "3. Hapus Teknisi\n";
+        cout << "4. Kembali\n";
         pilih = getValidatedInt("Pilihan: ");
 
         clearScreen();
@@ -667,8 +665,13 @@ void menuTeknisi(Database& db) {
         case 1: {
             Teknisi t;
             t.inputData();
+
+            // PERUBAHAN: Menggunakan t.getNama() karena 'nama' sekarang protected.
+            string nama_escaped = escape_sql_string(t.getNama());
+            string keahlian_escaped = escape_sql_string(t.keahlian);
+
             string sql = "INSERT INTO teknisi (nama, keahlian) VALUES ('" +
-                escape_sql_string(t.nama) + "', '" + escape_sql_string(t.keahlian) + "')"; // Gunakan escape_sql_string
+                nama_escaped + "', '" + keahlian_escaped + "')";
             try {
                 db.execute(sql);
                 cout << "✅ Teknisi berhasil ditambahkan.\n";
@@ -676,166 +679,165 @@ void menuTeknisi(Database& db) {
             catch (const exception& e) {
                 cerr << "❌ Gagal menambahkan teknisi: " << e.what() << endl;
             }
-            pause(); // Pause setelah operasi selesai
+            pause();
             break;
         }
-        case 2: { // Case untuk Hapus Teknisi
-            // Tampilkan daftar teknisi sebelum hapus
+        case 2: {
             auto* res = db.query("SELECT * FROM teknisi");
-            if (!res || res->rowsCount() == 0) { // Cek juga jika tidak ada data
-                cout << "❌ Tidak ada data teknisi untuk dihapus.\n";
+            if (!res || res->rowsCount() == 0) {
+                cout << "Belum ada data teknisi yang tercatat.\n";
+            }
+            else {
+                cout << "\n=== Daftar Teknisi ===\n";
+                while (res->next()) {
+                    cout << "ID: " << res->getInt("id") << ", Nama: " << res->getString("nama")
+                        << ", Keahlian: " << res->getString("keahlian") << "\n";
+                }
+            }
+            if (res) delete res;
+            pause();
+            break;
+        }
+        case 3: {
+            // Logika Hapus Teknisi. Disarankan menggunakan ON DELETE SET NULL di database.
+            cout << "Fitur hapus teknisi sebaiknya ditangani oleh 'ON DELETE SET NULL' di database.\n";
+            cout << "Jika belum di-set, referensi teknisi pada tabel servis akan diatur ke NULL secara manual oleh kode ini.\n\n";
+
+            auto* res = db.query("SELECT id, nama FROM teknisi");
+            if (!res || res->rowsCount() == 0) {
+                cerr << "❌ Tidak ada data teknisi untuk dihapus.\n";
                 if (res) delete res;
-                pause(); // Pause sebelum kembali
+                pause();
                 break;
             }
+
             cout << "\n=== Daftar Teknisi ===\n";
             while (res->next()) {
-                cout << "ID: " << res->getInt("id") << ", Nama: " << res->getString("nama")
-                    << ", Keahlian: " << res->getString("keahlian") << "\n";
+                cout << "ID: " << res->getInt("id") << ", Nama: " << res->getString("nama") << "\n";
             }
-            delete res; // Hapus ResultSet setelah digunakan
+            delete res;
 
-            int idHapus = getValidatedInt("Masukkan ID teknisi yang ingin dihapus: ");
+            int idHapus = getValidatedInt("\nMasukkan ID teknisi yang ingin dihapus: ");
 
-            // Konfirmasi penghapusan
-            cout << "⚠️ Apakah Anda yakin ingin menghapus teknisi dengan ID " << idHapus << "? (y/n): ";
+            cout << "⚠️ Yakin ingin menghapus teknisi ID " << idHapus << "? (y/n): ";
             char confirm;
             cin >> confirm;
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             if (confirm == 'y' || confirm == 'Y') {
                 try {
-                    // Cek apakah ID teknisi ada sebelum menghapus
-                    auto* checkRes = db.query("SELECT COUNT(*) AS count FROM teknisi WHERE id = " + to_string(idHapus));
-                    if (!checkRes || !checkRes->next() || checkRes->getInt("count") == 0) {
-                        cout << "❌ Teknisi dengan ID " << idHapus << " tidak ditemukan.\n";
-                        if (checkRes) delete checkRes;
-                        pause();
-                        break;
-                    }
-                    delete checkRes;
-
-                    string sqlUpdateServis = "UPDATE servis SET id_teknisi = NULL WHERE id_teknisi = " + to_string(idHapus);
-                    db.execute(sqlUpdateServis);
-                    cout << "   ✅ Referensi teknisi di tabel servis berhasil diperbarui (diatur NULL).\n";
-
+                    // Atur servis yang terkait ke NULL
+                    db.execute("UPDATE servis SET id_teknisi = NULL WHERE id_teknisi = " + to_string(idHapus));
+                    // Hapus teknisi
                     db.execute("DELETE FROM teknisi WHERE id = " + to_string(idHapus));
-                    cout << "✅ Teknisi berhasil dihapus.\n";
+                    cout << "✅ Teknisi berhasil dihapus dan referensi di servis telah di-update.\n";
                 }
                 catch (const exception& e) {
                     cerr << "❌ Gagal menghapus teknisi: " << e.what() << endl;
-                    // Pesan khusus jika gagal karena foreign key (jika belum dihandle sebelumnya)
-                    if (string(e.what()).find("FOREIGN KEY constraint failed") != string::npos ||
-                        string(e.what()).find("a foreign key constraint fails") != string::npos) {
-                        cerr << "   Pastikan tidak ada servis yang masih terhubung dengan teknisi ini, atau atur ON DELETE SET NULL/CASCADE di database.\n";
-                    }
                 }
             }
             else {
-                cout << "Pembatalan penghapusan teknisi.\n";
+                cout << "Penghapusan dibatalkan.\n";
             }
-            pause(); // Pause setelah operasi hapus/batal
+            pause();
             break;
         }
-        case 3: // Case untuk Kembali, diubah dari 2 menjadi 3
+        case 4:
             cout << "↩️ Kembali ke menu utama...\n";
-            // TIDAK PERLU pause() di sini
             break;
         default:
             cout << "❌ Pilihan tidak valid!\n";
-            pause(); // Pause setelah pilihan tidak valid
+            pause();
             break;
         }
-        // HAPUS pause() di sini, karena sudah ditangani di setiap case yang sesuai
-        // pause();
-    } while (pilih != 3); // Kondisi loop juga diubah dari 2 menjadi 3
+    } while (pilih != 4);
 }
 
-void menuPembayaranServis(Database& db) {
-    int pilih;
-    do {
-        clearScreen();
-        cout << "\n--- MENU PEMBAYARAN SERVIS ---\n";
-        cout << "1. Tambah Pembayaran\n";
-        cout << "2. Lihat Riwayat Pembayaran\n";
-        cout << "3. Kembali\n";
-        pilih = getValidatedInt("Pilihan: ");
+    void menuPembayaranServis(Database& db) {
+        int pilih;
+        do {
+            clearScreen();
+            cout << "\n--- MENU PEMBAYARAN SERVIS ---\n";
+            cout << "1. Tambah Pembayaran\n";
+            cout << "2. Lihat Riwayat Pembayaran\n";
+            cout << "3. Kembali\n";
+            pilih = getValidatedInt("Pilihan: ");
 
-        clearScreen();
-        switch (pilih) {
-        case 1: {
-            // Tampilkan daftar servis selesai yang belum dibayar
-            auto* res = db.query(R"(
-                SELECT s.id, s.id_kendaraan, s.id_teknisi, s.keluhan, s.tanggal, s.status,
-                       k.plat_nomor, k.merk, p.nama
-                FROM servis s
-                JOIN kendaraan k ON s.id_kendaraan = k.id
-                JOIN pelanggan p ON k.id_pelanggan = p.id
-                WHERE s.status = 'Selesai' AND s.status_pembayaran = 'Belum Bayar'
-            )");
+            clearScreen();
+            switch (pilih) {
+            case 1: {
+                // Tampilkan daftar servis selesai yang belum dibayar
+                auto* res = db.query(R"(
+                    SELECT s.id, s.id_kendaraan, s.id_teknisi, s.keluhan, s.tanggal, s.status,
+                           k.plat_nomor, k.merk, p.nama
+                    FROM servis s
+                    JOIN kendaraan k ON s.id_kendaraan = k.id
+                    JOIN pelanggan p ON k.id_pelanggan = p.id
+                    WHERE s.status = 'Selesai' AND s.status_pembayaran = 'Belum Bayar'
+                )");
 
-            if (!res || !res->rowsCount()) {
-                cout << "❌ Tidak ada servis yang sudah selesai dan belum dibayar.\n";
-                if (res) delete res;
-                pause(); // Pause sebelum kembali
+                if (!res || !res->rowsCount()) {
+                    cout << "❌ Tidak ada servis yang sudah selesai dan belum dibayar.\n";
+                    if (res) delete res;
+                    pause(); // Pause sebelum kembali
+                    break;
+                }
+
+                cout << "\n=== Daftar Servis Selesai & Belum Dibayar ===\n";
+                while (res->next()) {
+                    cout << "ID Servis      : " << res->getInt("id") << "\n"
+                        << "Pelanggan      : " << res->getString("nama") << "\n"
+                        << "Plat Nomor     : " << res->getString("plat_nomor") << "\n"
+                        << "Merk Kendaraan : " << res->getString("merk") << "\n"
+                        << "Keluhan        : " << res->getString("keluhan") << "\n"
+                        << "Tanggal Servis : " << res->getString("tanggal") << "\n"
+                        << "--------------------------------------------\n";
+                }
+                delete res;
+
+                int id_servis_dipilih = getValidatedInt("Masukkan ID Servis yang ingin dibayar: ");
+
+                // --- Validasi ID Servis yang diinput ---
+                auto* validateRes = db.query("SELECT id FROM servis WHERE id = " + to_string(id_servis_dipilih) + " AND status = 'Selesai' AND status_pembayaran = 'Belum Bayar'");
+                if (!validateRes || !validateRes->next()) {
+                    cout << "❌ ID Servis tidak valid atau sudah dibayar/belum selesai.\n";
+                    if (validateRes) delete validateRes;
+                    pause(); // Pause sebelum kembali
+                    break;
+                }
+                delete validateRes;
+
+                PembayaranService p;
+                p.id_servis = id_servis_dipilih; // Gunakan ID yang sudah divalidasi
+                p.inputData();  // input tanggal_pembayaran, jumlah, metode, status
+
+                // Pastikan string yang dimasukkan ke SQL di-escape
+                string metode_escaped = escape_sql_string(p.metode);
+                string status_escaped = escape_sql_string(p.status);
+                string jumlah_sql_format = format_double_for_sql(p.jumlah);
+
+                string sqlInsert = "INSERT INTO pembayaran_servis (id_servis, tanggal_pembayaran, jumlah, metode, status) VALUES (" +
+                    to_string(p.id_servis) + ", '" +
+                    p.tanggal_pembayaran + "', " +
+                    jumlah_sql_format + ", '" + // Gunakan format_double_for_sql
+                    metode_escaped + "', '" +
+                    status_escaped + "')";
+
+                try {
+                    db.execute(sqlInsert);
+                    cout << "✅ Pembayaran berhasil ditambahkan.\n";
+
+                    string sqlUpdate = "UPDATE servis SET status_pembayaran = '" + status_escaped + "' WHERE id = " + to_string(p.id_servis);
+                    db.execute(sqlUpdate);
+                    cout << "✅ Status servis berhasil diperbarui.\n";
+
+                }
+                catch (const exception& e) {
+                    cerr << "❌ Gagal memproses pembayaran: " << e.what() << endl;
+                }
+                pause(); // Pause setelah operasi selesai
                 break;
             }
-
-            cout << "\n=== Daftar Servis Selesai & Belum Dibayar ===\n";
-            while (res->next()) {
-                cout << "ID Servis      : " << res->getInt("id") << "\n"
-                    << "Pelanggan      : " << res->getString("nama") << "\n"
-                    << "Plat Nomor     : " << res->getString("plat_nomor") << "\n"
-                    << "Merk Kendaraan : " << res->getString("merk") << "\n"
-                    << "Keluhan        : " << res->getString("keluhan") << "\n"
-                    << "Tanggal Servis : " << res->getString("tanggal") << "\n"
-                    << "--------------------------------------------\n";
-            }
-            delete res;
-
-            int id_servis_dipilih = getValidatedInt("Masukkan ID Servis yang ingin dibayar: ");
-
-            // --- Validasi ID Servis yang diinput ---
-            auto* validateRes = db.query("SELECT id FROM servis WHERE id = " + to_string(id_servis_dipilih) + " AND status = 'Selesai' AND status_pembayaran = 'Belum Bayar'");
-            if (!validateRes || !validateRes->next()) {
-                cout << "❌ ID Servis tidak valid atau sudah dibayar/belum selesai.\n";
-                if (validateRes) delete validateRes;
-                pause(); // Pause sebelum kembali
-                break;
-            }
-            delete validateRes;
-
-            PembayaranService p;
-            p.id_servis = id_servis_dipilih; // Gunakan ID yang sudah divalidasi
-            p.inputData();  // input tanggal_pembayaran, jumlah, metode, status
-
-            // Pastikan string yang dimasukkan ke SQL di-escape
-            string metode_escaped = escape_sql_string(p.metode);
-            string status_escaped = escape_sql_string(p.status);
-            string jumlah_sql_format = format_double_for_sql(p.jumlah);
-
-            string sqlInsert = "INSERT INTO pembayaran_servis (id_servis, tanggal_pembayaran, jumlah, metode, status) VALUES (" +
-                to_string(p.id_servis) + ", '" +
-                p.tanggal_pembayaran + "', " +
-                jumlah_sql_format + ", '" + // Gunakan format_double_for_sql
-                metode_escaped + "', '" +
-                status_escaped + "')";
-
-            try {
-                db.execute(sqlInsert);
-                cout << "✅ Pembayaran berhasil ditambahkan.\n";
-
-                string sqlUpdate = "UPDATE servis SET status_pembayaran = '" + status_escaped + "' WHERE id = " + to_string(p.id_servis);
-                db.execute(sqlUpdate);
-                cout << "✅ Status servis berhasil diperbarui.\n";
-
-            }
-            catch (const exception& e) {
-                cerr << "❌ Gagal memproses pembayaran: " << e.what() << endl;
-            }
-            pause(); // Pause setelah operasi selesai
-            break;
-        }
 
         case 2: {
             cout << "\n=== RIWAYAT PEMBAYARAN SERVIS ===\n";

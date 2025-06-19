@@ -3,18 +3,17 @@
 
 #include <iostream>
 
-using namespace std;
 class ServisDetail {
 public:
     int id_suku_cadang;
     int jumlah;
 
     void inputData() {
-        cout << "ID Suku Cadang yang digunakan: ";
-        cin >> id_suku_cadang;
-        cout << "Jumlah yang digunakan: ";
-        cin >> jumlah;
-        cin.ignore();
+        std::cout << "ID Suku Cadang yang digunakan: ";
+        std::cin >> id_suku_cadang;
+        std::cout << "Jumlah yang digunakan: ";
+        std::cin >> jumlah;
+        std::cin.ignore();
     }            
 };
 

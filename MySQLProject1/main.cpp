@@ -60,8 +60,8 @@ int main() {
             cout << "❌ Pilihan tidak valid!\n";
         }
 
-        if (pilihan != 8) pause(); // Tahan output sebelum clear ulang
-    } while (pilihan != 8);
+        if (pilihan != 9) pause(); // Tahan output sebelum clear ulang
+    } while (pilihan != 9);
 
     return 0;
 }

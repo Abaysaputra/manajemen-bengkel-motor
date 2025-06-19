@@ -6,7 +6,6 @@
 #include <cppconn/resultset.h>
 
 using namespace std;
-
 class Database {
 private:
     sql::Driver* driver;

@@ -1,31 +1,21 @@
 ﻿#include "Pelanggan.h"
 #include <iostream>
 
-using namespace std;
-
 void Pelanggan::inputData() {
-    cout << "Nama Pelanggan: ";
-    getline(cin >> ws, nama);
-    while (nama.empty()) {
-        cout << "❌ Nama tidak boleh kosong. Masukkan ulang: ";
-        getline(cin >> ws, nama);
-    }
+    // Panggil inputData() dari base class (User) untuk mengisi nama
+    User::inputData();
 
-    cout << "No HP: ";
-    getline(cin >> ws, no_hp);
-    while (no_hp.empty()) {
-        cout << "❌ No HP tidak boleh kosong. Masukkan ulang: ";
-        getline(cin >> ws, no_hp);
-    }
-
-    cout << "Alamat: ";
-    getline(cin >> ws, alamat);
-    while (alamat.empty()) {
-        cout << "❌ Alamat tidak boleh kosong. Masukkan ulang: ";
-        getline(cin >> ws, alamat);
-    }
+    // Minta input untuk data spesifik Pelanggan
+    std::cout << "No HP: ";
+    std::getline(std::cin, no_hp);
+    std::cout << "Alamat: ";
+    std::getline(std::cin, alamat);
 }
 
 void Pelanggan::tampilkanData() {
-    cout << "Nama: " << nama << "\nNo HP: " << no_hp << "\nAlamat: " << alamat << "\n";
+    // Panggil tampilkanData() dari base class (User) untuk menampilkan id dan nama
+    User::tampilkanData();
+
+    // Tampilkan data spesifik Pelanggan
+    std::cout << ", No HP: " << no_hp << ", Alamat: " << alamat << std::endl;
 }

@@ -1,24 +1,19 @@
 ﻿#include "Teknisi.h"
 #include <iostream>
 
-using namespace std;
-
 void Teknisi::inputData() {
-    cout << "Nama Teknisi: ";
-    getline(cin >> ws, nama);
-    while (nama.empty()) {
-        cout << "❌ Nama tidak boleh kosong. Masukkan ulang: ";
-        getline(cin >> ws, nama);
-    }
+    // Panggil inputData() dari base class (User) untuk mengisi nama
+    User::inputData();
 
-    cout << "Keahlian: ";
-    getline(cin, keahlian);
-    while (keahlian.empty()) {
-        cout << "❌ Keahlian tidak boleh kosong. Masukkan ulang: ";
-        getline(cin, keahlian);
-    }
+    // Minta input untuk data spesifik Teknisi
+    std::cout << "Keahlian: ";
+    std::getline(std::cin, keahlian);
 }
 
 void Teknisi::tampilkanData() {
-    cout << "Nama: " << nama << "\nKeahlian: " << keahlian << "\n";
+    // Panggil tampilkanData() dari base class (User) untuk menampilkan id dan nama
+    User::tampilkanData();
+
+    // Tampilkan data spesifik Teknisi
+    std::cout << ", Keahlian: " << keahlian << std::endl;
 }

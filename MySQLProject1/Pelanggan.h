@@ -1,15 +1,16 @@
 #pragma once
+#include "User.h" // Sertakan base class
 #include <string>
 
-using namespace std;
-
-class Pelanggan {
+// Pelanggan sekarang adalah turunan dari User
+class Pelanggan : public User {
 public:
-    int id;
-    string nama;
-    string no_hp;
-    string alamat;
+    // id dan nama sudah diwarisi (protected) dari User.
+    // Kita hanya perlu deklarasikan anggota yang spesifik untuk Pelanggan.
+    std::string no_hp;
+    std::string alamat;
 
-    void inputData();
-    void tampilkanData();
+    // Override fungsi virtual dari User
+    void inputData() override;
+    void tampilkanData() override;
 };
